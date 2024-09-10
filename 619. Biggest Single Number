@@ -1,0 +1,21 @@
+import pandas as pd
+
+def biggest_single_number(my_numbers: pd.DataFrame) -> pd.DataFrame:
+    dict = {}
+    result = []
+    for i in range(len(my_numbers)):
+        number = my_numbers['num'][i]
+        if number in dict:
+            dict[number] = dict[number] + 1
+        else:
+            dict[number] = 1
+    result = []
+    for key, value in dict.items():
+        if value == 1:
+            result.append(key)
+    result.sort(reverse = True)
+    if len(result) == 0:
+        return pd.DataFrame([[None]], columns = ['num'])
+    else: 
+        return pd.DataFrame([result[0]], columns = ['num'])
+
