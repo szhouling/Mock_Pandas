@@ -1,0 +1,9 @@
+import pandas as pd
+
+def sales_analysis(product: pd.DataFrame, sales: pd.DataFrame) -> pd.DataFrame:
+    df = sales.groupby(['product_id'])['sale_date'].agg(['min', 'max']).reset_index()
+    df = df[(df['min'] >= '2019-01-01') & (df['max'] <= '2019-03-31')]
+    df = pd.merge(df, product, on = 'product_id', how = 'inner')
+    df = df[['product_id', 'product_name']]
+    return df
+    
