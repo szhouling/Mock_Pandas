@@ -1,0 +1,8 @@
+import pandas as pd
+
+def market_analysis(users: pd.DataFrame, orders: pd.DataFrame, items: pd.DataFrame) -> pd.DataFrame:
+    df = orders[orders['order_date'].dt.year == 2019]
+    df = df.groupby(['buyer_id'])['order_id'].size().reset_index(name = 'orders_in_2019')
+    df = pd.merge(users, df, left_on = 'user_id', right_on = 'buyer_id', how = 'left')
+    df['orders_in_2019'] = df['orders_in_2019'].fillna(0).astype(int)
+    return df[['user_id', 'join_date', 'orders_in_2019']].rename(columns = {'user_id' : 'buyer_id'})
